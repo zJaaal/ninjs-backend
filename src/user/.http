@@ -1,0 +1,55 @@
+###This endpoint is for register
+POST localhost:3000/api/user
+Content-Type: application/json
+
+{
+    "username": "Jhon Doe",
+    "email": "jhon_doe@gmail.com",
+    "password": "Abcd1234"
+}
+
+<!--
+username: Required, 4 characters at least
+email: Required, valid email email@domain.com
+password: Required, 8 chars, one capital letter [A-Z], one lower case [a-z] and one number [0-9]
+
+This response its like:
+  "uid": "63040014a12e0ab1f3bca3fb",
+  "username": "Jhon Doe",
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.
+  eyJ1aWQiOiI2MzA0MDAxNGExMmUwYWIxZjNiY2EzZmIiLCJ1c2VybmFtZSI6IkphYXNkbCIsImlhdCI6MTY2MTIwNjU0OCwiZXhwIjoxN
+  jYxMjEzNzQ4fQ.YkQqJjaQFwF4wigRae8SSdKHFTj-woKatSC0yHYWHKw"
+-->
+
+### This endpoint is for login
+POST localhost:3000/api/user/login
+Content-Type: application/json
+
+{
+    "email": "jhon_doe@gmail.com",
+    "password": "Abcd1234"
+}
+
+<!--
+email: Required, valid email email@domain.com
+password: Required, 8 chars, one capital letter [A-Z], one lower case [a-z] and one number [0-9]
+This response its like:
+  "uid": "63040014a12e0ab1f3bca3fb",
+  "username": "Jhon Doe",
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.
+  eyJ1aWQiOiI2MzA0MDAxNGExMmUwYWIxZjNiY2EzZmIiLCJ1c2VybmFtZSI6IkphYXNkbCIsImlhdCI6MTY2MTIwNjU0OCwiZXhwIjoxN
+  jYxMjEzNzQ4fQ.YkQqJjaQFwF4wigRae8SSdKHFTj-woKatSC0yHYWHKw"
+-->
+
+### This endpoint is for renew the token
+GET localhost:3000/api/user/renew
+Content-Type: application/json
+x-token: Here Goes a Valid JWT
+
+<!--
+This response its like:
+  "Status": "Completed"
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.
+  eyJ1aWQiOiI2MzA0MDAxNGExMmUwYWIxZjNiY2EzZmIiLCJ1c2VybmFtZSI6IkphYXNkbCIsImlhdCI6MTY2MTIwNjU0OCwiZXhwIjoxN
+  jYxMjEzNzQ4fQ.YkQqJjaQFwF4wigRae8SSdKHFTj-woKatSC0yHYWHKw"
+-->
