@@ -33,6 +33,9 @@ const Question = new mongoose.Schema<Question>({
 		D: {
 			type: String
 		}
+	},
+	explanation: {
+		type: String
 	}
 });
 
