@@ -1,19 +1,19 @@
-import { Difficult } from '../validations/types';
+import { Difficult } from '../../utils/types';
 import { QuestionRepository } from './repo';
 
 /**
- * @description This function is the validation layer of the function with the same name in repo.ts
+ *
  * @param questionID
- * @returns
+ * @returns The difficult, answers and img path of the current question
  */
 const findById = (questionID: string) => {
 	return QuestionRepository.findById(questionID);
 };
 
 /**
- * @description This function is the validation layer of the function with the same name in repo.ts
+ *
  * @param questionID
- * @returns
+ * @returns The answers and util info of a question
  */
 
 const findAnswersById = (questionID: string) => {
@@ -21,10 +21,10 @@ const findAnswersById = (questionID: string) => {
 };
 
 /**
- * @description This function is the validation layer of the function with the same name in repo.ts
+ *
  * @param page
  * @param difficult
- * @returns
+ * @returns all questions filtered by difficult and page or all questions
  */
 const list = (page: number, difficult?: Difficult) => {
 	--page;
