@@ -5,6 +5,7 @@ export type Question = {
 	correctAnswer: string;
 	img: string;
 	answers: Answers;
+	explanation: string;
 };
 
 export enum Difficult {
