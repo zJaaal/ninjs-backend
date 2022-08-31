@@ -1,6 +1,13 @@
 import { Request, Response } from 'express';
+import { Users } from '../../user/domain';
 import { Questions } from '../domain';
 
+/**
+ * @description This controllers search in DB a question by ID
+ * @param req
+ * @param res
+ * @returns
+ */
 const findById = async (req: Request, res: Response) => {
 	try {
 		const question = await Questions.findById(req.body.questionID);
@@ -23,6 +30,12 @@ const findById = async (req: Request, res: Response) => {
 	}
 };
 
+/**
+ * @description This controllers fetch with pagination and filtering all questions
+ * @param req
+ * @param res
+ * @returns
+ */
 const list = async (req: Request, res: Response) => {
 	try {
 		//Here i should get the user progress to merge it
@@ -33,9 +46,23 @@ const list = async (req: Request, res: Response) => {
 				ErrorMessage: "Couldn't find any questions"
 			});
 		}
+
+		const userProgress = await Users.getProgress(req.body.uid);
+		if (!userProgress?.progress?.length) {
+			return res.status(200).json({
+				status: 'Completed',
+				result: questions
+			});
+		}
+		const mergeArrays = questions.map(
+			data =>
+				userProgress.progress?.find(
+					question => data.questionID == question.questionID
+				) || data
+		);
 		res.status(200).json({
 			status: 'Completed',
-			result: questions
+			result: mergeArrays
 		});
 	} catch (err) {
 		console.log(err);
@@ -45,6 +72,13 @@ const list = async (req: Request, res: Response) => {
 		});
 	}
 };
+
+/**
+ * @description This controllers review your answer to a question and saves your progress
+ * @param req
+ * @param res
+ * @returns
+ */
 const review = async (req: Request, res: Response) => {
 	try {
 		const question = await Questions.findAnswersById(req.body.questionID);
@@ -57,13 +91,24 @@ const review = async (req: Request, res: Response) => {
 
 		const result = question.correctAnswer == req.body.answer;
 
-		//Here i should make the request to post progress to User Model
+		const progressResult = await Users.getProgress(req.body.uid);
+		if (
+			progressResult?.progress?.find(x => x.questionID == question.questionID)
+		) {
+			await Users.updateProgress(req.body.uid, question.questionID, result);
+		} else {
+			await Users.pushProgress(
+				req.body.uid,
+				question.questionID,
+				question.difficult,
+				result
+			);
+		}
 
 		res.status(200).json({
 			status: 'Completed',
 			result: {
 				correct: result,
-				uid: req.body.uid,
 				explanation: question.explanation
 			}
 		});
