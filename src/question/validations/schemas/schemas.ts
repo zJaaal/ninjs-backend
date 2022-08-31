@@ -41,3 +41,9 @@ export const listQuestionsSchema = yup.object({
 				value ? Object.values(Difficult).includes(value as Difficult) : true
 		)
 });
+
+export const reviewSchema = yup.object({
+	questionID: yup.string().required('questionID is required'),
+	uid: yup.string(),
+	answer: yup.string().required('answer is required')
+});
