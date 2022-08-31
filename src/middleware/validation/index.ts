@@ -21,7 +21,6 @@ const schema =
 			//Calls the next middleware
 			next();
 		} catch (error) {
-			console.log(error);
 			res.status(400).json({
 				status: 'Validation Error',
 				error
