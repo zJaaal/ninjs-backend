@@ -3,7 +3,8 @@ import { QuestionsController } from '.';
 import { validate } from '../../middleware/validation';
 import {
 	listQuestionsSchema,
-	questionIDSchema
+	questionIDSchema,
+	reviewSchema
 } from '../validations/schemas/schemas';
 
 const questions = express.Router();
@@ -17,6 +18,11 @@ questions.get(
 	'/list',
 	validate.schema(listQuestionsSchema),
 	QuestionsController.list
+);
+questions.get(
+	'/review',
+	validate.schema(reviewSchema),
+	QuestionsController.review
 );
 
 export default questions;
