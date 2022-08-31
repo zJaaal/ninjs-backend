@@ -20,7 +20,7 @@ const findById = (questionID: string) => {
 
 const findAnswersById = (questionID: string) => {
 	return Question.findOne({ questionID })
-		.select(['correctAnswer', 'difficult', 'questionID', '-_id'])
+		.select(['correctAnswer', 'difficult', 'questionID', 'explanation', '-_id'])
 		.exec();
 };
 
