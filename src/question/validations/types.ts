@@ -1,3 +1,5 @@
+import { Difficult } from '../../utils/types';
+
 export type Question = {
 	questionID: string;
 	difficult: Difficult;
@@ -7,12 +9,6 @@ export type Question = {
 	answers: Answers;
 	explanation: string;
 };
-
-export enum Difficult {
-	genin = 'Genin',
-	chunin = 'Chunin',
-	jonin = 'Jonin'
-}
 
 export type Answers = {
 	A: string;

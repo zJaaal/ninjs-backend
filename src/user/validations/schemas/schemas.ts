@@ -1,4 +1,5 @@
 import * as yup from 'yup';
+import { Difficult } from '../../../utils/types';
 
 //Schema for Register validation
 export const userRegisterSchema = yup.object({
@@ -34,4 +35,20 @@ export const userLoginSchema = yup.object({
 			message:
 				'Password should have at least 1 number, 1 Capital letter, 1 lower case letter and 8 characters'
 		})
+});
+
+export const getProgressSchema = yup.object({
+	uid: yup.string().required('uid is Required')
+});
+
+export const progressSchema = yup.object({
+	questionID: yup.string().required('questionID is Required'),
+	difficult: yup
+		.string()
+		.required('difficult is Required')
+		.test('difficult-validation', 'difficult should be valid', value =>
+			Object.values(Difficult).includes(value as Difficult)
+		),
+	completed: yup.bool().required('completed is required')
+	// points: yup.number().required("points is required");
 });

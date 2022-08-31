@@ -1,5 +1,5 @@
 import * as yup from 'yup';
-import { Difficult } from '../types';
+import { Difficult } from '../../../utils/types';
 
 export const questionSchema = yup.object({
 	questionID: yup.string().required('questionID is Required'),
@@ -26,6 +26,7 @@ export const questionIDSchema = yup.object({
 });
 
 export const listQuestionsSchema = yup.object({
+	uid: yup.string(),
 	page: yup
 		.number()
 		.required('page is Required')

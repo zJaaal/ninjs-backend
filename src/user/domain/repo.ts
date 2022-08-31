@@ -1,5 +1,6 @@
-import { UserData } from "../validations/types";
-import User from "../validations/models/User";
+import { UserData } from '../validations/types';
+import User from '../validations/models/User';
+import { Difficult } from '../../utils/types';
 
 /**
  * @description This function communicates to the database and creates an user
@@ -7,10 +8,10 @@ import User from "../validations/models/User";
  * @returns returns the object that MongoDB generates
  */
 const create = (user: UserData) => {
-  const userModel = new User(user);
-  userModel.save();
+	const userModel = new User(user);
+	userModel.save();
 
-  return userModel;
+	return userModel;
 };
 
 /**
@@ -19,10 +20,71 @@ const create = (user: UserData) => {
  * @returns
  */
 const find = (email: string) => {
-  return User.findOne({ email: email }).exec();
+	return User.findOne({ email: email }).exec();
 };
 
+/**
+ *
+ * @param uid
+ * @returns The progress of an user
+ */
+const getProgress = (uid: string) => {
+	return User.findOne({ _id: uid }).select(['progress', '-_id']).exec();
+};
+
+/**
+ * @description This function push one progress to the user
+ * @param uid
+ * @param questionID
+ * @param difficult
+ * @param completed
+ * @returns
+ */
+const pushProgress = (
+	uid: string,
+	questionID: string,
+	difficult: Difficult,
+	completed: boolean
+) => {
+	return User.updateOne(
+		{ _id: uid },
+		{
+			$push: {
+				progress: {
+					questionID,
+					difficult,
+					completed
+				}
+			}
+		}
+	);
+};
+
+/**
+ * @description This function update one progress on an user
+ * @param uid
+ * @param questionID
+ * @param completed
+ * @returns
+ */
+const updateProgress = (
+	uid: string,
+	questionID: string,
+	completed: boolean
+) => {
+	return User.updateOne(
+		{ _id: uid, 'progress.questionID': questionID },
+		{
+			$set: {
+				'progress.$.completed': completed
+			}
+		}
+	);
+};
 export const UserRepository = {
-  create,
-  find,
+	create,
+	find,
+	getProgress,
+	pushProgress,
+	updateProgress
 };

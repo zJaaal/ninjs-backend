@@ -1,5 +1,5 @@
+import { Difficult } from '../../utils/types';
 import Question from '../validations/models/Question';
-import { Difficult } from '../validations/types';
 
 /**
  *

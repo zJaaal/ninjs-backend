@@ -1,0 +1,90 @@
+###
+GET localhost:3000/api/quiz/find
+Content-Type: application/json
+x-token: Here Goes a Valid JWT
+
+{
+  "questionID": "J3"
+}
+
+<!--RESPONSE
+{
+  "status": "Completed",
+  "result": {
+    "answers": {
+      "A": "Undefined",
+      "B": "Object",
+      "C": "3",
+      "D": "Null"
+     },
+    "difficult": "Jonin",
+    "img": "/some/url"
+  }
+}
+-->
+
+###
+
+GET localhost:3000/api/quiz/list
+Content-Type: application/json
+x-token: Here Goes a Valid JWT
+
+{
+  "page": 1,
+  "difficult": "Jonin"
+}
+
+<!--RESPONSE
+    NOTE: difficult is optional, just for filtering, page is required
+    NOTE #2: You can get the number from the ID with questionID.split()[1]
+             or maybe a regex as questionID.match(/\d/)
+             (this solution is more accurate since there can be strings with more than 2 chars)
+{
+  "status": "Completed",
+  "result": [
+    {
+      "questionID": "J1",
+      "difficult": "Jonin",
+      "completed": false,
+    },
+    {
+      "questionID": "J2",
+      "difficult": "Jonin",
+      "completed": true,
+    },
+    {
+      "questionID": "J3",
+      "difficult": "Jonin"
+    },
+    {
+      "questionID": "J4",
+      "difficult": "Jonin",
+      "completed": true
+    }
+  ]
+}
+-->
+
+
+###
+
+GET localhost:3000/api/quiz/review
+Content-Type: application/json
+x-token: Here Goes a Valid JWT
+
+{
+  "questionID": "G1",
+  "answer": "B"
+}
+
+<!--RESPONSE
+
+NOTE: This endpoint saves the progress under the table
+{
+  "status": "Completed",
+  "result": {
+    "correct": false,
+    "explanation": "this function is hoisting so it has access to variable 'imJustANormalVariable',
+                    you can find more info in https://developer.mozilla.org/en-US/docs/Glossary/Hoisting "
+  }
+-->
