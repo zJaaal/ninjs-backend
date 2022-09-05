@@ -5,7 +5,7 @@ import { QuestionProgress, UserData } from '../types';
 
 const QuestionProgress = new mongoose.Schema<QuestionProgress>(
 	{
-		questionID: { type: String, unique: true },
+		questionID: { type: String },
 		difficult: { type: String },
 		completed: { type: Boolean }
 		// points: { type: Number },
