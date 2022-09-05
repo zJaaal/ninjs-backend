@@ -12,11 +12,17 @@ const schema =
 	async (req: Request, res: Response, next: NextFunction) => {
 		try {
 			//Here validates and set the validated object
-
-			req.body = await schema.validate(req.body, {
-				abortEarly: false,
-				stripUnknown: true
-			});
+			if (req.method == 'GET') {
+				req.query = await schema.validate(req.query, {
+					abortEarly: false,
+					stripUnknown: true
+				});
+			} else {
+				req.body = await schema.validate(req.body, {
+					abortEarly: false,
+					stripUnknown: true
+				});
+			}
 
 			//Calls the next middleware
 			next();
@@ -43,13 +49,28 @@ const jwt = async (req: Request, res: Response, next: NextFunction) => {
 			token as string,
 			process.env.SECRET_KEY as string
 		) as JwtPayload;
-		req.body.uid = uid;
-		req.body.username = username;
+
+		if (req.method != 'GET') {
+			req.body.uid = uid;
+			req.body.username = username;
+		} else {
+			req.query.uid = uid;
+			req.query.username = username;
+		}
 	} catch (error) {
+		if (
+			error instanceof JWT.JsonWebTokenError ||
+			error instanceof JWT.TokenExpiredError
+		) {
+			return res.status(400).json({
+				status: 'Error',
+				ErrorMessage: 'Please send a valid token in the request'
+			});
+		}
 		console.log(error);
-		return res.status(400).json({
+		return res.status(500).json({
 			status: 'Error',
-			ErrorMessage: 'Please send a valid token in the request'
+			ErrorMessage: 'Please contact an admin'
 		});
 	}
 
