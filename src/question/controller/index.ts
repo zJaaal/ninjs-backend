@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { Users } from '../../user/domain';
+import { Difficult } from '../../utils/types';
 import { Questions } from '../domain';
 
 /**
@@ -10,7 +11,7 @@ import { Questions } from '../domain';
  */
 const findById = async (req: Request, res: Response) => {
 	try {
-		const question = await Questions.findById(req.body.questionID);
+		const question = await Questions.findById(req.query.questionID as string);
 		if (!question) {
 			return res.status(404).json({
 				status: 'Error',
@@ -39,7 +40,10 @@ const findById = async (req: Request, res: Response) => {
 const list = async (req: Request, res: Response) => {
 	try {
 		//Here i should get the user progress to merge it
-		const questions = await Questions.list(req.body.page, req.body.difficult);
+		const questions = await Questions.list(
+			Number(req.query.page),
+			req.query.difficult as Difficult
+		);
 		if (!questions.length) {
 			return res.status(404).json({
 				status: 'Error',
