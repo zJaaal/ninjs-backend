@@ -1,6 +1,5 @@
 ###
 GET localhost:3000/api/quiz/find?questionID=J3
-Content-Type: application/json
 x-token: Here Goes a Valid JWT
 
 <!--RESPONSE
@@ -22,7 +21,6 @@ x-token: Here Goes a Valid JWT
 ###
 
 GET localhost:3000/api/quiz/list?page=1&difficult=Jonin
-Content-Type: application/json
 x-token: Here Goes a Valid JWT
 
 <!--RESPONSE
