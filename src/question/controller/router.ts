@@ -19,7 +19,7 @@ questions.get(
 	validate.schema(listQuestionsSchema),
 	QuestionsController.list
 );
-questions.get(
+questions.put(
 	'/review',
 	validate.schema(reviewSchema),
 	QuestionsController.review
