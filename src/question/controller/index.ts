@@ -51,7 +51,7 @@ const list = async (req: Request, res: Response) => {
 			});
 		}
 
-		const userProgress = await Users.getProgress(req.body.uid);
+		const userProgress = await Users.getProgress(req.query.uid as string);
 		if (!userProgress?.progress?.length) {
 			return res.status(200).json({
 				status: 'Completed',
@@ -96,11 +96,14 @@ const review = async (req: Request, res: Response) => {
 		const result = question.correctAnswer == req.body.answer;
 
 		const progressResult = await Users.getProgress(req.body.uid);
+		console.log(progressResult);
 		if (
 			progressResult?.progress?.find(x => x.questionID == question.questionID)
 		) {
 			await Users.updateProgress(req.body.uid, question.questionID, result);
+			console.log('updated');
 		} else {
+			console.log('pushed');
 			await Users.pushProgress(
 				req.body.uid,
 				question.questionID,
