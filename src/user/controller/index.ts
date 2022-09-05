@@ -90,8 +90,25 @@ const renew = async (req: Request, res: Response) => {
 		});
 	}
 };
+
+const validate = async (req: Request, res: Response) => {
+	try {
+		const token = req.headers['x-token'];
+		return res.status(200).json({
+			status: 'Completed',
+			token
+		});
+	} catch (err) {
+		console.log(err);
+		return res.status(404).json({
+			status: 'Error',
+			ErrorMessage: 'Please contact an admin'
+		});
+	}
+};
 export const UserController = {
 	register,
 	login,
-	renew
+	renew,
+	validate
 };

@@ -3,9 +3,9 @@ POST localhost:3000/api/user
 Content-Type: application/json
 
 {
-    "username": "Jhon Doe",
-    "email": "jhon_doe@gmail.com",
-    "password": "Abcd1234"
+"username": "Jhon Doe",
+"email": "jhon_doe@gmail.com",
+"password": "Abcd1234"
 }
 
 <!--
@@ -22,12 +22,13 @@ This response its like:
 -->
 
 ### This endpoint is for login
+
 POST localhost:3000/api/user/login
 Content-Type: application/json
 
 {
-    "email": "jhon_doe@gmail.com",
-    "password": "Abcd1234"
+"email": "jhon_doe@gmail.com",
+"password": "Abcd1234"
 }
 
 <!--
@@ -42,6 +43,7 @@ This response its like:
 -->
 
 ### This endpoint is for renew the token
+
 GET localhost:3000/api/user/renew
 Content-Type: application/json
 x-token: Here Goes a Valid JWT
@@ -52,4 +54,18 @@ This response its like:
   "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.
   eyJ1aWQiOiI2MzA0MDAxNGExMmUwYWIxZjNiY2EzZmIiLCJ1c2VybmFtZSI6IkphYXNkbCIsImlhdCI6MTY2MTIwNjU0OCwiZXhwIjoxN
   jYxMjEzNzQ4fQ.YkQqJjaQFwF4wigRae8SSdKHFTj-woKatSC0yHYWHKw"
+-->
+
+### This endpoint is to validate the token
+
+GET localhost:3000/api/user/validate
+Content-Type: application/json
+x-token: Here Goes a Valid JWT
+
+<!--
+This response its like:
+  "Status": "Completed"
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.
+  eyJ1aWQiOiI2MzA0MDAxNGExMmUwYWIxZjNiY2EzZmIiLCJ1c2VybmFtZSI6IkphYXNkbCIsImlhdCI6MTY2MTIwNjU0OCwiZXhwIjoxN
+  jYxMjEzNzQ4fQ.YkQqJjaQFwF4wigRae8SSdKHFTj-woKatSC0yHYWHKw" (Is the same token)
 -->
