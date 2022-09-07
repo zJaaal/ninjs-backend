@@ -26,9 +26,17 @@ x-token: Here Goes a Valid JWT
 
 <!--RESPONSE
     NOTE: difficult is optional, just for filtering, page is required
+
     NOTE 2: You can get the number from the ID with questionID.split()[1]
              or maybe a regex as questionID.match(/\d/)
              (this solution is more accurate since there can be strings with more than 2 chars)
+
+    NOTE 3: I added an "all" query, its optional it will answer with all the cards without pagination
+            its meant to be used with the "completed" query (its optional too), can be true or false,
+            it will answer with the completed or not questions. This will answer by page as well 10 per page.
+            If you dont set a completed (true or false) it will retrieve all the questions without filtering
+            by completed
+
 {
   "status": "Completed",
   "result": [
