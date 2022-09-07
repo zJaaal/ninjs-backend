@@ -34,7 +34,6 @@ const list = (page: number, difficult?: Difficult, all?: boolean) => {
 	const mainQuery = Question.find().select(['questionID', 'difficult', '-_id']);
 	if (all)
 		return difficult ? mainQuery.where({ difficult }).exec() : mainQuery.exec();
-
 	if (difficult)
 		return mainQuery
 			.where({ difficult })
