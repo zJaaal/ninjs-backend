@@ -56,6 +56,12 @@ const list = async (req: Request, res: Response) => {
 		const userProgress = await Users.getProgress(req.query.uid as string);
 
 		if (!userProgress?.progress?.length) {
+			if (typeof req.query.completed != 'undefined') {
+				return res.status(200).json({
+					status: 'Completed',
+					result: []
+				});
+			}
 			return res.status(200).json({
 				status: 'Completed',
 				result: questions
@@ -64,7 +70,7 @@ const list = async (req: Request, res: Response) => {
 
 		let mergeArrays = questions.map(
 			data =>
-				userProgress.progress?.find(
+				userProgress!.progress?.find(
 					question => data.questionID == question.questionID
 				) || data
 		) as QuestionProgress[];
