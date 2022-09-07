@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { Users } from '../../user/domain';
+import { QuestionProgress } from '../../user/validations/types';
 import { Difficult } from '../../utils/types';
 import { Questions } from '../domain';
 
@@ -42,7 +43,8 @@ const list = async (req: Request, res: Response) => {
 		//Here i should get the user progress to merge it
 		const questions = await Questions.list(
 			Number(req.query.page),
-			req.query.difficult as Difficult
+			req.query.difficult as Difficult,
+			Boolean(req.query.all)
 		);
 		if (!questions.length) {
 			return res.status(404).json({
@@ -52,18 +54,27 @@ const list = async (req: Request, res: Response) => {
 		}
 
 		const userProgress = await Users.getProgress(req.query.uid as string);
+
 		if (!userProgress?.progress?.length) {
 			return res.status(200).json({
 				status: 'Completed',
 				result: questions
 			});
 		}
-		const mergeArrays = questions.map(
+
+		let mergeArrays = questions.map(
 			data =>
 				userProgress.progress?.find(
 					question => data.questionID == question.questionID
 				) || data
-		);
+		) as QuestionProgress[];
+
+		if (typeof req.query.completed != 'undefined') {
+			mergeArrays = mergeArrays
+				.filter(x => x.completed === Boolean(req.query.completed))
+				.splice((Number(req.query.page) - 1) * 10, 10);
+		}
+
 		res.status(200).json({
 			status: 'Completed',
 			result: mergeArrays
