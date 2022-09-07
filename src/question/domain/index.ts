@@ -26,9 +26,9 @@ const findAnswersById = (questionID: string) => {
  * @param difficult
  * @returns all questions filtered by difficult and page or all questions
  */
-const list = (page: number, difficult?: Difficult) => {
+const list = (page: number, difficult?: Difficult, all?: boolean) => {
 	--page;
-	return QuestionRepository.list(page, difficult);
+	return QuestionRepository.list(page, difficult, all);
 };
 
 export const Questions = {
