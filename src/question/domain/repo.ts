@@ -30,8 +30,10 @@ const findAnswersById = (questionID: string) => {
  * @param difficult
  * @returns all questions filtered by difficult and page or all questions
  */
-const list = (page: number, difficult?: Difficult) => {
+const list = (page: number, difficult?: Difficult, all?: boolean) => {
 	const mainQuery = Question.find().select(['questionID', 'difficult', '-_id']);
+	if (all) return mainQuery.exec();
+
 	if (difficult)
 		return mainQuery
 			.where({ difficult })

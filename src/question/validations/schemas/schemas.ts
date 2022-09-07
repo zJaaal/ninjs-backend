@@ -40,7 +40,9 @@ export const listQuestionsSchema = yup.object({
 			'difficult should be a valid difficult',
 			value =>
 				value ? Object.values(Difficult).includes(value as Difficult) : true
-		)
+		),
+	all: yup.boolean().optional(),
+	completed: yup.boolean().optional()
 });
 
 export const reviewSchema = yup.object({
