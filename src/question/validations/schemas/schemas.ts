@@ -3,6 +3,7 @@ import { Difficult } from '../../../utils/types';
 
 export const questionSchema = yup.object({
 	questionID: yup.string().required('questionID is Required'),
+	code: yup.string().required(),
 	difficult: yup
 		.string()
 		.required('difficult is Required')

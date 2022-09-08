@@ -6,6 +6,9 @@ const Question = new mongoose.Schema<Question>({
 		type: String,
 		unique: true
 	},
+	code: {
+		type: String
+	},
 	difficult: {
 		type: String,
 		enum: ['Genin', 'Chunin', 'Jonin']

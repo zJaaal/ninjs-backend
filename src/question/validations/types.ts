@@ -3,6 +3,7 @@ import { Difficult } from '../../utils/types';
 export type Question = {
 	questionID: string;
 	difficult: Difficult;
+	code: string;
 	//points: number,
 	correctAnswer: string;
 	img: string;
