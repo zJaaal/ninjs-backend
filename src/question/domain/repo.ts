@@ -8,7 +8,7 @@ import Question from '../validations/models/Question';
  */
 const findById = (questionID: string) => {
 	return Question.findOne({ questionID })
-		.select(['difficult', 'answers', 'img', '-_id'])
+		.select(['difficult', 'answers', 'code', 'question', '-_id'])
 		.exec();
 };
 
@@ -31,6 +31,8 @@ const findAnswersById = (questionID: string) => {
  * @returns all questions filtered by difficult and page or all questions
  */
 const list = (page: number, difficult?: Difficult, all?: boolean) => {
+	//doc.count()
+	//Math.ceil(value/10)
 	const mainQuery = Question.find().select(['questionID', 'difficult', '-_id']);
 	if (all)
 		return difficult ? mainQuery.where({ difficult }).exec() : mainQuery.exec();
