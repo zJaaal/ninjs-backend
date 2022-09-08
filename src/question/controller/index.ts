@@ -57,8 +57,8 @@ const list = async (req: Request, res: Response) => {
 
 		if (!userProgress?.progress?.length) {
 			if (typeof req.query.completed != 'undefined') {
-				return res.status(200).json({
-					status: 'Completed',
+				return res.status(404).json({
+					status: 'Error',
 					result: []
 				});
 			}
@@ -80,7 +80,11 @@ const list = async (req: Request, res: Response) => {
 				.filter(x => x.completed === Boolean(req.query.completed))
 				.splice((Number(req.query.page) - 1) * 10, 10);
 		}
-
+		if (!mergeArrays.length)
+			return res.status(404).json({
+				status: 'Error',
+				result: []
+			});
 		res.status(200).json({
 			status: 'Completed',
 			result: mergeArrays
