@@ -6,6 +6,9 @@ const Question = new mongoose.Schema<Question>({
 		type: String,
 		unique: true
 	},
+	question: {
+		type: String
+	},
 	code: {
 		type: String
 	},
@@ -19,9 +22,6 @@ const Question = new mongoose.Schema<Question>({
 	correctAnswer: {
 		type: String,
 		enum: ['A', 'B', 'C', 'D']
-	},
-	img: {
-		type: String
 	},
 	answers: {
 		A: {

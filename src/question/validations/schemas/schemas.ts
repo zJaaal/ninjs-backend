@@ -3,7 +3,8 @@ import { Difficult } from '../../../utils/types';
 
 export const questionSchema = yup.object({
 	questionID: yup.string().required('questionID is Required'),
-	code: yup.string().required(),
+	question: yup.string().required('question is required'),
+	code: yup.string().required('code string is required'),
 	difficult: yup
 		.string()
 		.required('difficult is Required')
@@ -11,7 +12,6 @@ export const questionSchema = yup.object({
 			Object.values(Difficult).includes(value as Difficult)
 		),
 	correctAnswer: yup.string().required('correctAnswer is Required'),
-	img: yup.string().required('img is required'),
 	answers: yup.object({
 		A: yup.string().required('A answer is required'),
 		B: yup.string().required('B answer is required'),

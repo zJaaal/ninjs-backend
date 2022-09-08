@@ -2,13 +2,13 @@ import { Difficult } from '../../utils/types';
 
 export type Question = {
 	questionID: string;
-	difficult: Difficult;
+	question: string;
 	code: string;
-	//points: number,
 	correctAnswer: string;
-	img: string;
-	answers: Answers;
 	explanation: string;
+	difficult: Difficult;
+	//points: number,
+	answers: Answers;
 };
 
 export type Answers = {
