@@ -60,7 +60,7 @@ const list = async (req: Request, res: Response) => {
 				return res.status(404).json({
 					status: 'Error',
 					result: {
-						maxPage: 0,
+						maxPage: 1,
 						questions: []
 					}
 				});
@@ -90,7 +90,7 @@ const list = async (req: Request, res: Response) => {
 			return res.status(404).json({
 				status: 'Error',
 				result: {
-					maxPage: 0,
+					maxPage: 1,
 					questions: []
 				}
 			});
