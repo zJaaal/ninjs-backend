@@ -46,7 +46,7 @@ const list = async (req: Request, res: Response) => {
 			req.query.difficult as Difficult,
 			Boolean(req.query.all)
 		);
-		if (!questions.length) {
+		if (!questions.data.length) {
 			return res.status(404).json({
 				status: 'Error',
 				ErrorMessage: "Couldn't find any questions"
@@ -59,16 +59,21 @@ const list = async (req: Request, res: Response) => {
 			if (typeof req.query.completed != 'undefined') {
 				return res.status(404).json({
 					status: 'Error',
-					result: []
+					result: {
+						maxPage: 0,
+						questions: []
+					}
 				});
 			}
 			return res.status(200).json({
 				status: 'Completed',
-				result: questions
+				result: {
+					maxPage: Math.ceil(questions.count / 10),
+					questions: questions.data
+				}
 			});
 		}
-
-		let mergeArrays = questions.map(
+		let mergeArrays = questions.data.map(
 			data =>
 				userProgress!.progress?.find(
 					question => data.questionID == question.questionID
@@ -76,18 +81,32 @@ const list = async (req: Request, res: Response) => {
 		) as QuestionProgress[];
 
 		if (typeof req.query.completed != 'undefined') {
-			mergeArrays = mergeArrays
-				.filter(x => x.completed === Boolean(req.query.completed))
-				.splice((Number(req.query.page) - 1) * 10, 10);
+			mergeArrays = mergeArrays.filter(
+				x => x.completed === Boolean(req.query.completed)
+			);
 		}
+		let mergeArrayLength = mergeArrays.length;
 		if (!mergeArrays.length)
 			return res.status(404).json({
 				status: 'Error',
-				result: []
+				result: {
+					maxPage: 0,
+					questions: []
+				}
 			});
+
 		res.status(200).json({
 			status: 'Completed',
-			result: mergeArrays
+			result: {
+				maxPage:
+					typeof req.query.completed != 'undefined'
+						? Math.ceil(mergeArrayLength / 10)
+						: Math.ceil(questions.count / 10),
+				questions:
+					typeof req.query.completed != 'undefined'
+						? mergeArrays.splice((Number(req.query.page) - 1) * 10, 10)
+						: mergeArrays
+			}
 		});
 	} catch (err) {
 		console.log(err);
