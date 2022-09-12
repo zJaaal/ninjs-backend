@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import { string } from 'yup';
 import { QuestionProgress, UserData } from '../types';
 
 //Mongo Model
@@ -26,6 +27,10 @@ const User = new mongoose.Schema<UserData>({
 	},
 	progress: {
 		type: [QuestionProgress]
+	},
+	variant: {
+		type: String,
+		default: 'marble'
 	}
 });
 
