@@ -25,6 +25,7 @@ const register = async (req: Request, res: Response) => {
 		res.status(201).json({
 			uid: createdUser.id,
 			username: createdUser.username,
+			variant: 'marble',
 			token
 		});
 	} catch (error) {
@@ -63,6 +64,7 @@ const login = async (req: Request, res: Response) => {
 		res.status(200).json({
 			uid: findUser.id,
 			username: findUser.username,
+			variant: findUser.variant,
 			token
 		});
 	} catch (error) {
@@ -74,17 +76,69 @@ const login = async (req: Request, res: Response) => {
 	}
 };
 
-const renew = async (req: Request, res: Response) => {
-	const { uid, username } = req.body;
+const updateProfile = async (req: Request, res: Response) => {
 	try {
-		const token = await Crypt.generateJWT(uid, username);
+		const updatedUser = await Users.updateProfile(req.body);
+		if (!updatedUser) {
+			return res.status(404).json({
+				status: 'Error',
+				ErroMessage: "Couldn't find any user"
+			});
+		}
+		return res.status(200).json({
+			status: 'Completed',
+			result: {
+				username: updatedUser.username,
+				variant: updatedUser.variant
+			}
+		});
+	} catch (err) {
+		console.log(err);
+		return res.status(400).json({
+			status: 'Error',
+			ErrorMessage: 'Please contact an admin'
+		});
+	}
+};
+
+const progress = async (req: Request, res: Response) => {
+	try {
+		const userProgress = await Users.getProgress(req.query.uid as string);
+		if (!userProgress) {
+			return res.status(400).json({
+				status: 'Error',
+				ErrorMessage: "Couldn't find an user"
+			});
+		}
+		if (!userProgress!.progress?.length) {
+			return res.status(404).json({
+				status: 'Error',
+				ErrorMessage: "Couldn't find any progress"
+			});
+		}
+		res.status(200).json({
+			status: 'Completed',
+			result: userProgress!.progress
+		});
+	} catch (error) {
+		console.log(error),
+			res.status(400).json({
+				status: 'Error',
+				ErrorMessage: 'Something went wrong please contact an admin.'
+			});
+	}
+};
+const renew = async (req: Request, res: Response) => {
+	const { uid, username } = req.query;
+	try {
+		const token = await Crypt.generateJWT(uid as string, username as string);
 		return res.status(200).json({
 			status: 'Completed',
 			token
 		});
 	} catch (err) {
 		console.log(err);
-		return res.status(404).json({
+		return res.status(400).json({
 			status: 'Error',
 			ErrorMessage: 'Please contact an admin'
 		});
@@ -100,15 +154,18 @@ const validate = async (req: Request, res: Response) => {
 		});
 	} catch (err) {
 		console.log(err);
-		return res.status(404).json({
+		return res.status(400).json({
 			status: 'Error',
 			ErrorMessage: 'Please contact an admin'
 		});
 	}
 };
+
 export const UserController = {
 	register,
 	login,
 	renew,
-	validate
+	validate,
+	updateProfile,
+	progress
 };
