@@ -52,7 +52,6 @@ const jwt = async (req: Request, res: Response, next: NextFunction) => {
 
 		if (req.method != 'GET') {
 			req.body.uid = uid;
-			req.body.username = username;
 		} else {
 			req.query.uid = uid;
 			req.query.username = username;
