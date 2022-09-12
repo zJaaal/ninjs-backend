@@ -3,7 +3,9 @@ import { Users } from '../../user/domain';
 import { QuestionProgress } from '../../user/validations/types';
 import { Difficult } from '../../utils/types';
 import { Questions } from '../domain';
-
+import asyncFilter from '../utils/asyncFilter';
+import asyncPagination from '../utils/asyncPagination';
+import mergeArrays from '../utils/mergeArrays';
 /**
  * @description This controllers search in DB a question by ID
  * @param req
@@ -73,20 +75,20 @@ const list = async (req: Request, res: Response) => {
 				}
 			});
 		}
-		let mergeArrays = questions.data.map(
-			data =>
-				userProgress!.progress?.find(
-					question => data.questionID == question.questionID
-				) || data
-		) as QuestionProgress[];
-
+		let newData = await mergeArrays<QuestionProgress>(
+			questions.data,
+			userProgress.progress,
+			'questionID'
+		);
 		if (typeof req.query.completed != 'undefined') {
-			mergeArrays = mergeArrays.filter(
-				x => x.completed === Boolean(req.query.completed)
+			newData = await asyncFilter(
+				newData,
+				'completed',
+				Boolean(req.query.completed)
 			);
 		}
-		let mergeArrayLength = mergeArrays.length;
-		if (!mergeArrays.length)
+		let mergeArrayLength = newData.length;
+		if (!mergeArrayLength)
 			return res.status(404).json({
 				status: 'Error',
 				result: {
@@ -104,8 +106,8 @@ const list = async (req: Request, res: Response) => {
 						: Math.ceil(questions.count / 10),
 				questions:
 					typeof req.query.completed != 'undefined'
-						? mergeArrays.splice((Number(req.query.page) - 1) * 10, 10)
-						: mergeArrays
+						? await asyncPagination(newData, Number(req.query.page))
+						: newData
 			}
 		});
 	} catch (err) {
