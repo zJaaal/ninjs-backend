@@ -1,5 +1,5 @@
 import { Difficult } from '../../utils/types';
-import { UserData } from '../validations/types';
+import { Profile, UserData } from '../validations/types';
 import { UserRepository } from './repo';
 
 /**
@@ -61,10 +61,20 @@ const updateProgress = (
 	return UserRepository.updateProgress(uid, questionID, completed);
 };
 
+/**
+ * @description This function finds one user an updates it profile
+ * @param profile
+ * @returns
+ */
+const updateProfile = (profile: Profile) => {
+	return UserRepository.updateProfile(profile);
+};
+
 export const Users = {
 	create,
 	find,
 	getProgress,
 	pushProgress,
-	updateProgress
+	updateProgress,
+	updateProfile
 };

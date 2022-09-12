@@ -1,4 +1,4 @@
-import { UserData } from '../validations/types';
+import { Profile, UserData } from '../validations/types';
 import User from '../validations/models/User';
 import { Difficult } from '../../utils/types';
 
@@ -81,10 +81,24 @@ const updateProgress = (
 		}
 	);
 };
+
+/**
+ * @description This function finds one user an updates it profile
+ * @param profile
+ * @returns
+ */
+const updateProfile = (profile: Profile) => {
+	return User.findOneAndUpdate(
+		{ _id: profile.uid },
+		{ variant: profile.variant, username: profile.username },
+		{ new: true }
+	);
+};
 export const UserRepository = {
 	create,
 	find,
 	getProgress,
 	pushProgress,
-	updateProgress
+	updateProgress,
+	updateProfile
 };
