@@ -3,7 +3,8 @@ import { UserController } from '.';
 import { validate } from '../../middleware/validation';
 import {
 	userRegisterSchema,
-	userLoginSchema
+	userLoginSchema,
+	updateProfileSchema
 } from '../validations/schemas/schemas';
 
 const user = express.Router();
@@ -18,5 +19,15 @@ user.get('/renew', validate.jwt, UserController.renew);
 
 //This is the initialization of validate endpoint, it validates the JWT on a middleware
 user.get('/validate', validate.jwt, UserController.validate);
+
+//This is the initialization of update profile endpoint
+user.put(
+	'/profile',
+	validate.jwt,
+	validate.schema(updateProfileSchema),
+	UserController.updateProfile
+);
+//This is the initialization of get progress endpoint
+user.get('/progress', validate.jwt, UserController.progress);
 
 export default user;
