@@ -38,7 +38,7 @@ const jwt = async (req: Request, res: Response, next: NextFunction) => {
 	const token = req.headers['x-token'];
 
 	if (!token) {
-		return res.status(403).json({
+		return res.status(401).json({
 			status: 'Error',
 			ErrorMessage: 'Please send a token in the request'
 		});
@@ -61,7 +61,7 @@ const jwt = async (req: Request, res: Response, next: NextFunction) => {
 			error instanceof JWT.JsonWebTokenError ||
 			error instanceof JWT.TokenExpiredError
 		) {
-			return res.status(403).json({
+			return res.status(401).json({
 				status: 'Error',
 				ErrorMessage: 'Please send a valid token in the request'
 			});
