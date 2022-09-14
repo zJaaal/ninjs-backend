@@ -1,5 +1,7 @@
 import express from 'express';
 import { connectMongoDB } from './src/database';
+import { validate } from './src/middleware/validation';
+import questions from './src/question/controller/router';
 import user from './src/user/controller/route';
 const cors = require('cors');
 
@@ -19,6 +21,7 @@ connectMongoDB();
 
 //Initialize app endpoints
 app.use('/api/user', user); //User
+app.use('/api/quiz', validate.jwt, questions); //Quiz
 
 //Start to listen to server port
 app.listen(process.env.PORT, () => {
