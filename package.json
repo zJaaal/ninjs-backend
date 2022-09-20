@@ -25,6 +25,5 @@
   "devDependencies": {
     "@types/jsonwebtoken": "^8.5.8",
     "tsc-watch": "^5.0.3"
-  },
-    "type": "module"
+  }
 }
