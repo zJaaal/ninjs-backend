@@ -35,7 +35,7 @@ const list = async (page: number, difficult?: Difficult, all?: boolean) => {
 	//doc.count()
 	//Math.ceil(value/10)
 	const mainQuery = Question.find()
-		.sort({ _id: 1 })
+		.sort({ order: 1 })
 		.select(['questionID', 'difficult', '-_id']);
 	if (all) {
 		const count: number = difficult

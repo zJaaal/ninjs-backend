@@ -9,6 +9,7 @@ export type Question = {
 	difficult: Difficult;
 	//points: number,
 	answers: Answers;
+	order: number;
 };
 
 export type Answers = {

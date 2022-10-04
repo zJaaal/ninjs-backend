@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import { number } from 'yup';
 import { Question } from '../types';
 
 const Question = new mongoose.Schema<Question>({
@@ -39,6 +40,9 @@ const Question = new mongoose.Schema<Question>({
 	},
 	explanation: {
 		type: String
+	},
+	order: {
+		type: Number
 	}
 });
 
