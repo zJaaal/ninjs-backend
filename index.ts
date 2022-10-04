@@ -11,10 +11,11 @@ require('dotenv').config();
 //Initialize express
 const app = express();
 
+//added cors
+app.use(cors());
+
 //Initialize json parser
 app.use(express.json());
-
-app.use(cors());
 
 //Connect to Mongo
 connectMongoDB();
