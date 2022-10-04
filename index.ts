@@ -14,7 +14,31 @@ const app = express();
 //Initialize json parser
 app.use(express.json());
 
-app.use(cors());
+// app.use(
+// 	cors({
+// 		origin: process.env.CORS_ORIGIN
+// 	})
+// );
+
+app.use(function (req, res, next) {
+	// Website you wish to allow to connect
+	res.setHeader(
+		'Access-Control-Allow-Origin',
+		process.env.CORS_ORIGIN as string
+	);
+
+	// Request methods you wish to allow
+	res.setHeader(
+		'Access-Control-Allow-Methods',
+		'GET, POST, OPTIONS, PUT, PATCH, DELETE'
+	);
+
+	// Request headers you wish to allow
+	res.setHeader('Access-Control-Allow-Headers', '*');
+
+	// Pass to next layer of middleware
+	next();
+});
 
 //Connect to Mongo
 connectMongoDB();
