@@ -14,7 +14,7 @@ const app = express();
 //Initialize json parser
 app.use(express.json());
 
-app.use(cors({ origin: process.env.CORS_ORIGIN }));
+app.use(cors());
 
 //Connect to Mongo
 connectMongoDB();
