@@ -18,7 +18,8 @@ export const questionSchema = yup.object({
 		C: yup.string().required('C answer is required'),
 		D: yup.string().required('D answer is required')
 	}),
-	explanation: yup.string().required('explanation is required')
+	explanation: yup.string().required('explanation is required'),
+	order: yup.number().required('Please verify the max possible order')
 	//points: number,
 });
 
