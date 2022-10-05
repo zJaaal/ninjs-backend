@@ -31,8 +31,16 @@ const list = (page: number, difficult?: Difficult, all?: boolean) => {
 	return QuestionRepository.list(page, difficult, all);
 };
 
+/**
+ * @returns the count of every difficult
+ */
+const count = () => {
+	return QuestionRepository.count();
+};
+
 export const Questions = {
 	findById,
 	findAnswersById,
-	list
+	list,
+	count
 };

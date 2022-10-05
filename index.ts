@@ -20,12 +20,11 @@ app.use(express.json());
 //Connect to Mongo
 connectMongoDB();
 
-// //Example for German
-// Question.find({ difficult: 'Chunin' })
-// 	.count()
-// 	.exec()
-// 	.then(x => console.log(x));
 
+
+
+
+// app.get("/totalCards", )
 //Initialize app endpoints
 app.use('/api/user', user); //User
 app.use('/api/quiz', validate.jwt, questions); //Quiz
