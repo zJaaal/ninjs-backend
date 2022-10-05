@@ -20,11 +20,6 @@ app.use(express.json());
 //Connect to Mongo
 connectMongoDB();
 
-
-
-
-
-// app.get("/totalCards", )
 //Initialize app endpoints
 app.use('/api/user', user); //User
 app.use('/api/quiz', validate.jwt, questions); //Quiz
