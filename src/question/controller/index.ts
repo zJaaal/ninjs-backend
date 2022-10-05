@@ -55,6 +55,8 @@ const list = async (req: Request, res: Response) => {
 			});
 		}
 
+		const { totalGenin, totalChunin, totalJonin } = await Questions.count();
+
 		const userProgress = await Users.getProgress(req.query.uid as string);
 
 		if (!userProgress?.progress?.length) {
@@ -70,6 +72,9 @@ const list = async (req: Request, res: Response) => {
 			return res.status(200).json({
 				status: 'Completed',
 				result: {
+					totalGenin,
+					totalChunin,
+					totalJonin,
 					maxPage: Math.ceil(questions.count / 10),
 					questions: questions.data
 				}
@@ -100,6 +105,9 @@ const list = async (req: Request, res: Response) => {
 		res.status(200).json({
 			status: 'Completed',
 			result: {
+				totalGenin,
+				totalChunin,
+				totalJonin,
 				maxPage:
 					typeof req.query.completed != 'undefined'
 						? Math.ceil(mergeArrayLength / 10)

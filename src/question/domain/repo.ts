@@ -1,4 +1,3 @@
-import { Questions } from '.';
 import { Difficult } from '../../utils/types';
 import Question from '../validations/models/Question';
 
@@ -31,6 +30,7 @@ const findAnswersById = (questionID: string) => {
  * @param difficult
  * @returns all questions filtered by difficult and page or all questions
  */
+
 const list = async (page: number, difficult?: Difficult, all?: boolean) => {
 	//doc.count()
 	//Math.ceil(value/10)
@@ -65,8 +65,26 @@ const list = async (page: number, difficult?: Difficult, all?: boolean) => {
 	return { count, data };
 };
 
+/**
+ * @returns the count of every difficult
+ */
+const count = async () => {
+	const totalGenin = await Question.find({ difficult: 'Genin' }).count().exec();
+	const totalChunin = await Question.find({ difficult: 'Chunin' })
+		.count()
+		.exec();
+	const totalJonin = await Question.find({ difficult: 'Jonin' }).count().exec();
+
+	return {
+		totalGenin,
+		totalChunin,
+		totalJonin
+	};
+};
+
 export const QuestionRepository = {
 	findById,
 	findAnswersById,
-	list
+	list,
+	count
 };
